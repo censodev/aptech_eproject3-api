@@ -1,0 +1,9 @@
+C:\Users\JewCat\Desktop\netcore\eProject3\Api\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\JewCat\Desktop\netcore\eProject3\Api\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\JewCat\Desktop\netcore\eProject3\Api\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\JewCat\Desktop\netcore\eProject3\Api\obj\Debug\netcoreapp3.1\Api.csprojAssemblyReference.cache
+C:\Users\JewCat\Desktop\netcore\eProject3\Api\obj\Debug\netcoreapp3.1\Api.AssemblyInfoInputs.cache
+C:\Users\JewCat\Desktop\netcore\eProject3\Api\obj\Debug\netcoreapp3.1\Api.AssemblyInfo.cs
+C:\Users\JewCat\Desktop\netcore\eProject3\Api\obj\Debug\netcoreapp3.1\Api.RazorTargetAssemblyInfo.cache
+C:\Users\JewCat\Desktop\netcore\eProject3\Api\obj\Debug\netcoreapp3.1\staticwebassets\Api.StaticWebAssets.Manifest.cache
+C:\Users\JewCat\Desktop\netcore\eProject3\Api\obj\Debug\netcoreapp3.1\staticwebassets\Api.StaticWebAssets.xml
