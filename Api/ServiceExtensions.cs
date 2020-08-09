@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Data.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,11 @@ namespace Api
         public static void UseServices(this IServiceCollection services)
         {
             services.AddScoped<IExampleService, ExampleService>();
+        }
+
+        public static void UseRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IUserRepository, UserRepository>();
         }
     }
 }

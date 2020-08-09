@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Data.DataContexts
+namespace Data
 {
-    public class EProject3DataContext : DbContext
+    public class DataContext : DbContext
     {
-        public EProject3DataContext(DbContextOptions<EProject3DataContext> options) : base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }
 
         public DbSet<User> Users { get; set; }

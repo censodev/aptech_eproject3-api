@@ -1,0 +1,1 @@
+docker run -d -p 8080:80 --name eProject3 eproject3:1.0
