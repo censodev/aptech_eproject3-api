@@ -12,7 +12,7 @@ namespace Api
     {
         public static void UseServices(this IServiceCollection services)
         {
-            services.AddScoped<IExampleService, ExampleService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         public static void UseRepositories(this IServiceCollection services)

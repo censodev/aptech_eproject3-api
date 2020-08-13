@@ -1,1 +1,1 @@
-docker build -t eproject3:1.0 .
+docker build -t eproject3-api:1.0 .
