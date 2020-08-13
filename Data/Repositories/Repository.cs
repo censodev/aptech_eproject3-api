@@ -1,5 +1,6 @@
 ﻿using Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,47 +11,52 @@ namespace Data.Repositories
     public abstract class Repository<E> : IRepository<E> where E : Entity
     {
         protected readonly DbContext context;
+        private readonly ILogger logger;
 
-        public Repository(DbContext context)
+        public Repository(DbContext context, ILogger logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
-        public void Add(E entity)
+        public bool Add(E entity)
         {
             context.Set<E>().Add(entity);
-            context.SaveChanges();
+            return Commit();
         }
 
-        public void AddAll(IEnumerable<E> entities)
+        public bool AddAll(IEnumerable<E> entities)
         {
             foreach (var entity in entities)
             {
                 context.Set<E>().Add(entity);
             }
-            context.SaveChanges();
+
+            return Commit();
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
             using (var transaction = context.Database.BeginTransaction())
             {
                 try
                 {
                     context.Database
-                        .ExecuteSqlRaw(String.Format("delete from {0} where id = {1}", typeof(E).Name, id));
+                        .ExecuteSqlRaw(String.Format("DELETE FROM {0} WHERE id = {1}", typeof(E).Name, id));
                     transaction.Commit();
+                    return true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.LogError(ex.Message);
                     transaction.Rollback();
-                    throw;
+                    return false;
                 }
                 
             }
         }
 
-        public void DeleteAll(IEnumerable<long> ids)
+        public bool DeleteAll(IEnumerable<long> ids)
         {
             using (var transaction = context.Database.BeginTransaction())
             {
@@ -59,14 +65,16 @@ namespace Data.Repositories
                     foreach (var id in ids)
                     {
                         context.Database
-                            .ExecuteSqlRaw(String.Format("delete from {0} where id = {1}", typeof(E).Name, id));
+                            .ExecuteSqlRaw(String.Format("DELETE FROM {0} WHERE id = {1}", typeof(E).Name, id));
                     }
                     transaction.Commit();
+                    return true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.LogError(ex.Message);
                     transaction.Rollback();
-                    throw;
+                    return false;
                 }
                 
             }
@@ -82,19 +90,34 @@ namespace Data.Repositories
             return context.Set<E>().ToList();
         }
 
-        public void Update(E entity)
+        public bool Update(E entity)
         {
             context.Set<E>().Update(entity);
-            context.SaveChanges();
+            return Commit();
         }
 
-        public void UpdateAll(IEnumerable<E> entities)
+        public bool UpdateAll(IEnumerable<E> entities)
         {
             foreach (var entity in entities)
             {
                 context.Set<E>().Update(entity);
             }
-            context.SaveChanges();
+
+            return Commit();
+        }
+
+        private bool Commit()
+        {
+            try
+            {
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return false;
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using Data.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Services
@@ -15,9 +16,9 @@ namespace Services
             this.userRepository = userRepository;
         }
 
-        public void AddUser(User user)
+        public bool AddUser(User user)
         {
-            this.userRepository.Add(user);
+            return userRepository.Add(user);
         }
 
         public IEnumerable<User> GetAllUsers()
@@ -25,19 +26,24 @@ namespace Services
             return userRepository.FindAll();
         }
 
+        public User GetByUsername(string username)
+        {
+            return userRepository.GetByUsername(username);
+        }
+
         public User GetUserById(long id)
         {
             return userRepository.Find(id);
         }
 
-        public void RemoveUser(long id)
+        public bool RemoveUser(long id)
         {
-            userRepository.Delete(id);
+            return userRepository.Delete(id);
         }
 
-        public void UpdateUser(User user)
+        public bool UpdateUser(User user)
         {
-            userRepository.Update(user);
+            return userRepository.Update(user);
         }
     }
 }

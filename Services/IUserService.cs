@@ -9,8 +9,9 @@ namespace Services
     {
         User GetUserById(long id);
         IEnumerable<User> GetAllUsers();
-        void AddUser(User user);
-        void UpdateUser(User user);
-        void RemoveUser(long id);
+        bool AddUser(User user);
+        bool UpdateUser(User user);
+        bool RemoveUser(long id);
+        User GetByUsername(string username);
     }
 }

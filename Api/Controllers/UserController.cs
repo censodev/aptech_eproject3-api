@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common;
 using Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services;
@@ -22,12 +24,14 @@ namespace Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = Policies.Admin)]
         public ActionResult<IEnumerable<User>> Get()
         {
             return userService.GetAllUsers().ToList();
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<User> Get(long id)
         {
             return userService.GetUserById(id);

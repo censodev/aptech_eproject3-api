@@ -1,4 +1,5 @@
-﻿using Data.Repositories;
+﻿using Api.Providers;
+using Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Services;
 using System;
@@ -18,6 +19,12 @@ namespace Api
         public static void UseRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+        }
+
+        public static void UseProviders(this IServiceCollection services)
+        {
+            services.AddSingleton<JwtProvider>();
+            services.AddSingleton<BCryptProvider>();
         }
     }
 }
