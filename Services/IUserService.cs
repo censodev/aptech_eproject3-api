@@ -7,11 +7,12 @@ namespace Services
 {
     public interface IUserService
     {
-        User GetUserById(long id);
-        IEnumerable<User> GetAllUsers();
-        bool AddUser(User user);
-        bool UpdateUser(User user);
-        bool RemoveUser(long id);
-        User GetByUsername(string username);
+        User FindById(long id);
+        IEnumerable<User> FindAll();
+        bool Add(User user);
+        bool Update(User user);
+        bool Remove(long id);
+        User FindByUsername(string username);
+        User FindByEmail(string email);
     }
 }

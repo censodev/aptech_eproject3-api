@@ -17,7 +17,14 @@ namespace Data.Repositories
         {
         }
 
-        public User GetByUsername(string username)
+        public User FindByEmail(string email)
+        {
+            return context.Set<User>()
+                .Where(u => u.Email.Equals(email))
+                .FirstOrDefault();
+        }
+
+        public User FindByUsername(string username)
         {
             return context.Set<User>()
                 .Where(u => u.Username.Equals(username))

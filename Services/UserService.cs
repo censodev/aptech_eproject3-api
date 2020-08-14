@@ -16,34 +16,39 @@ namespace Services
             this.userRepository = userRepository;
         }
 
-        public bool AddUser(User user)
+        public bool Add(User user)
         {
             return userRepository.Add(user);
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<User> FindAll()
         {
             return userRepository.FindAll();
         }
 
-        public User GetByUsername(string username)
+        public User FindByUsername(string username)
         {
-            return userRepository.GetByUsername(username);
+            return userRepository.FindByUsername(username);
         }
 
-        public User GetUserById(long id)
+        public User FindById(long id)
         {
             return userRepository.Find(id);
         }
 
-        public bool RemoveUser(long id)
+        public bool Remove(long id)
         {
             return userRepository.Delete(id);
         }
 
-        public bool UpdateUser(User user)
+        public bool Update(User user)
         {
             return userRepository.Update(user);
+        }
+
+        public User FindByEmail(string email)
+        {
+            return userRepository.FindByEmail(email);
         }
     }
 }

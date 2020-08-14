@@ -27,20 +27,20 @@ namespace Api.Controllers
         [Authorize(Policy = Policies.Admin)]
         public ActionResult<IEnumerable<User>> Get()
         {
-            return userService.GetAllUsers().ToList();
+            return userService.FindAll().ToList();
         }
 
         [HttpGet("{id}")]
         [Authorize]
         public ActionResult<User> Get(long id)
         {
-            return userService.GetUserById(id);
+            return userService.FindById(id);
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] User user)
         {
-            userService.AddUser(user);
+            userService.Add(user);
             return Ok();
         }
 
@@ -48,14 +48,14 @@ namespace Api.Controllers
         public IActionResult Put(long id, [FromBody] User user)
         {
             user.Id = id;
-            userService.UpdateUser(user);
+            userService.Update(user);
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            userService.RemoveUser(id);
+            userService.Remove(id);
             return Ok();
         }
     }

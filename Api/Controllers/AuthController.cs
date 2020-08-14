@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Api.Providers;
+using Common;
+using Common.Exceptions;
+using Common.Requests;
+using Common.ViewModels;
 using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,53 +19,62 @@ namespace Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly JwtProvider jwtProvider;
-        private readonly BCryptProvider bCryptProvider;
+        private readonly IAuthService authService;
         private readonly IUserService userService;
 
         public AuthController(
-            JwtProvider jwtProvider,
-            BCryptProvider bCryptProvider,
+            IAuthService authService,
             IUserService userService)
         {
-            this.bCryptProvider = bCryptProvider;
-            this.jwtProvider = jwtProvider;
+            this.authService = authService;
             this.userService = userService;
         }
 
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        public IActionResult Login([FromBody] User login)
+        public IActionResult Login([FromBody] AuthRequest login)
         {
-            User user = userService.GetByUsername(login.Username);
-            if (user != null && bCryptProvider.Check(login.Password, user.Password))
+            try
             {
-                var tokenString = jwtProvider.GenerateJWTToken(user);
-                return Ok(new
-                {
-                    token = tokenString,
-                    userDetails = user,
-                });
+                return Ok(authService.Login(login));
             }
-            return Unauthorized();
+            catch (AuthException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
         }
 
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
-        public IActionResult Register([FromBody] User register)
+        public IActionResult RegisterUser([FromBody] AuthRequest register)
         {
-            register.Password = bCryptProvider.Hash(register.Password);
+            try
+            {
+                register.UserRole = Policies.User;
+                return Ok(authService.Register(register));
+            }
+            catch (AuthException ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
 
-            string res = "Ok";
-
-            if (userService.GetByUsername(register.Username) != null)
-                res = "Username is already exists";
-            else if (!userService.AddUser(register))
-                res = "Can't register account";
-
-            return Ok(res);
+        [HttpPost]
+        [Authorize(Policy = Policies.Admin)]
+        [Route("admin/register")]
+        public IActionResult RegisterAdmin([FromBody] AuthRequest register)
+        {
+            try
+            {
+                register.UserRole = Policies.Admin;
+                return Ok(authService.Register(register));
+            }
+            catch (AuthException ex)
+            {
+                return Ok(ex.Message);
+            }
         }
     }
 }
