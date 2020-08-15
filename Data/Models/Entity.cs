@@ -9,5 +9,8 @@ namespace Data.Models
     {
         [Key]
         public long Id { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }
