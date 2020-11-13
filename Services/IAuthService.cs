@@ -12,7 +12,7 @@ namespace Services
         string HashPassword(string input);
         bool CheckPassword(string input, string hash);
         string GenerateJWTToken(User userInfo);
-        string Register(AuthRequest authRequest);
+        User Register(AuthRequest authRequest);
         AuthViewModel Login(AuthRequest login);
     }
 }

@@ -52,7 +52,7 @@ namespace Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public string Register(AuthRequest register)
+        public User Register(AuthRequest register)
         {
             User user = new User()
             {
@@ -68,7 +68,7 @@ namespace Services
             else if (!userService.Add(user))
                 throw new AuthException(AuthException.UNDEFINED);
 
-            return "Register successfully";
+            return user;
         }
 
         public AuthViewModel Login(AuthRequest login)

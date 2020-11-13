@@ -37,43 +37,26 @@ namespace Api.Controllers
         {
             try
             {
-                return Ok(authService.Login(login));
+                return Ok(new RestResponse(true, null, authService.Login(login)));
             }
             catch (AuthException ex)
             {
-                return Unauthorized(ex.Message);
+                return Unauthorized(new RestResponse(false, ex.Message));
             }
         }
 
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
-        public IActionResult RegisterUser([FromBody] AuthRequest register)
+        public IActionResult Register([FromBody] AuthRequest register)
         {
             try
             {
-                register.UserRole = Policies.User;
-                return Ok(authService.Register(register));
+                return Ok(new RestResponse(true, "Register successfully", authService.Register(register)));
             }
             catch (AuthException ex)
             {
-                return Ok(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Authorize(Policy = Policies.Admin)]
-        [Route("admin/register")]
-        public IActionResult RegisterAdmin([FromBody] AuthRequest register)
-        {
-            try
-            {
-                register.UserRole = Policies.Admin;
-                return Ok(authService.Register(register));
-            }
-            catch (AuthException ex)
-            {
-                return Ok(ex.Message);
+                return Ok(new RestResponse(false, ex.Message));
             }
         }
     }
