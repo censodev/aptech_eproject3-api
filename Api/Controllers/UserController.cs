@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Common;
+using Common.ViewModels;
 using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,23 +26,23 @@ namespace Api.Controllers
 
         [HttpGet]
         [Authorize(Policy = Policies.Admin)]
-        public ActionResult<IEnumerable<User>> Get()
+        public IActionResult Get()
         {
-            return userService.FindAll().ToList();
+            return Ok(new RestResponse(true, null, userService.FindAll().ToList()));
         }
 
         [HttpGet("{id}")]
         [Authorize]
-        public ActionResult<User> Get(long id)
+        public IActionResult Get(long id)
         {
-            return userService.FindById(id);
+            return Ok(new RestResponse(true, null, userService.FindById(id)));
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] User user)
         {
             userService.Add(user);
-            return Ok();
+            return Ok(new RestResponse(true, "Add user successfully"));
         }
 
         [HttpPut("{id}")]
@@ -49,14 +50,14 @@ namespace Api.Controllers
         {
             user.Id = id;
             userService.Update(user);
-            return Ok();
+            return Ok(new RestResponse(true, "Update user successfully"));
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
             userService.Remove(id);
-            return Ok();
+            return Ok(new RestResponse(true, "Delete user successfully"));
         }
     }
 }
