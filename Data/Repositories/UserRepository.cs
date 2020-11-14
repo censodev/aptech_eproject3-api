@@ -11,8 +11,6 @@ namespace Data.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        private readonly ILogger<UserRepository> logger;
-
         public UserRepository(DataContext context, ILogger<UserRepository> logger) : base(context, logger)
         {
         }

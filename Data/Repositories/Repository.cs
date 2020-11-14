@@ -8,12 +8,12 @@ using System.Text;
 
 namespace Data.Repositories
 {
-    public abstract class Repository<E> : IRepository<E> where E : class
+    public abstract class Repository<E> : IRepository<E> where E : Entity
     {
-        protected readonly DbContext context;
-        private readonly ILogger logger;
+        protected readonly DataContext context;
+        protected readonly ILogger logger;
 
-        public Repository(DbContext context, ILogger logger)
+        public Repository(DataContext context, ILogger logger)
         {
             this.context = context;
             this.logger = logger;
@@ -41,10 +41,9 @@ namespace Data.Repositories
             {
                 try
                 {
-                    context.Database
-                        .ExecuteSqlRaw(String.Format("DELETE FROM {0} WHERE id = {1}", typeof(E).Name, id));
-                    transaction.Commit();
-                    return true;
+                    var entity = Find(id);
+                    entity.Status = 0;
+                    return Update(entity);
                 }
                 catch (Exception ex)
                 {
@@ -64,8 +63,9 @@ namespace Data.Repositories
                 {
                     foreach (var id in ids)
                     {
-                        context.Database
-                            .ExecuteSqlRaw(String.Format("DELETE FROM {0} WHERE id = {1}", typeof(E).Name, id));
+                        var entity = Find(id);
+                        entity.Status = 0;
+                        context.Set<E>().Update(entity);
                     }
                     transaction.Commit();
                     return true;

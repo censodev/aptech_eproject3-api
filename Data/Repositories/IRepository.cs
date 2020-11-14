@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Data.Repositories
 {
-    public interface IRepository<E> where E : class
+    public interface IRepository<E> where E : Entity
     {
         IEnumerable<E> FindAll();
         E Find(long id);

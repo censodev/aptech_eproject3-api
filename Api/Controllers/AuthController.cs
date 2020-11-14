@@ -7,6 +7,7 @@ using Common.Exceptions;
 using Common.Requests;
 using Common.ViewModels;
 using Data.Models;
+using Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +21,10 @@ namespace Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService authService;
-        private readonly IUserService userService;
 
-        public AuthController(
-            IAuthService authService,
-            IUserService userService)
+        public AuthController(IAuthService authService)
         {
             this.authService = authService;
-            this.userService = userService;
         }
 
         [HttpPost]

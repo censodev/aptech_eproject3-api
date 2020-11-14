@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Data.Models
 {
-    public class Faq : Entity
+    public class Entity
     {
-        public string Question { get; set; }
-        public string Answer { get; set; }
+        [Key]
+        public long Id { get; set; }
+        public int Status { get; set; }
     }
 }

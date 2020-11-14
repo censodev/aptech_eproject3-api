@@ -2,6 +2,7 @@
 using Common.Requests;
 using Common.ViewModels;
 using Data.Models;
+using Data.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,12 +16,12 @@ namespace Services
     public class AuthService : IAuthService
     {
         private readonly IConfiguration config;
-        private readonly IUserService userService;
+        private readonly IUserRepository userRepository;
 
-        public AuthService(IConfiguration config, IUserService userService)
+        public AuthService(IConfiguration config, IUserRepository userRepository)
         {
             this.config = config;
-            this.userService = userService;
+            this.userRepository = userRepository;
         }
 
         public string HashPassword(string input)
@@ -63,9 +64,9 @@ namespace Services
                 UserRole = register.UserRole
             };
 
-            if (userService.FindByUsername(register.Username) != null)
+            if (userRepository.FindByUsername(register.Username) != null)
                 throw new AuthException(AuthException.USERNAME_EXISTS);
-            else if (!userService.Add(user))
+            else if (!userRepository.Add(user))
                 throw new AuthException(AuthException.UNDEFINED);
 
             return user;
@@ -73,7 +74,7 @@ namespace Services
 
         public AuthViewModel Login(AuthRequest login)
         {
-            User user = userService.FindByUsername(login.Username);
+            User user = userRepository.FindByUsername(login.Username);
 
             if (user == null)
                 throw new AuthException(AuthException.USERNAME_DOES_NOT_EXIST);

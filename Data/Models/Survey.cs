@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Data.Models
 {
-    public class Survey
+    public class Survey : Entity
     {
-        [Key]
-        public long Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public User User { get; set; }
