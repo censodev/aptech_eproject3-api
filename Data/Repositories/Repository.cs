@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Data.Repositories
 {
-    public abstract class Repository<E> : IRepository<E> where E : Entity
+    public abstract class Repository<E> : IRepository<E> where E : class
     {
         protected readonly DbContext context;
         private readonly ILogger logger;

@@ -37,7 +37,7 @@ namespace Api.Controllers
         {
             try
             {
-                return Ok(new RestResponse(true, null, authService.Login(login)));
+                return Ok(new RestResponse(true, "Login successfully", authService.Login(login)));
             }
             catch (AuthException ex)
             {
