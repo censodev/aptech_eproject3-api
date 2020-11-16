@@ -13,6 +13,7 @@ namespace Common.Exceptions
         public const string USERNAME_EXISTS = "Username already exists";
         public const string USERNAME_DOES_NOT_EXIST = "Username doesn't exist";
         public const string WRONG_PASSWORD = "Wrong password";
-        public const string UNDEFINED = "Undefined error";
+        public const string INACTIVE_ACCOUNT = "The account is inactive";
+        public const string UNDEFINED = "Something went wrong";
     }
 }

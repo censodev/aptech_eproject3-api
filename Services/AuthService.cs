@@ -61,7 +61,8 @@ namespace Services
                 Username = register.Username,
                 Password = HashPassword(register.Password),
                 Email = register.Email,
-                UserRole = register.UserRole
+                UserRole = register.UserRole,
+                Status = 1,
             };
 
             if (userRepository.FindByUsername(register.Username) != null)
@@ -78,6 +79,9 @@ namespace Services
 
             if (user == null)
                 throw new AuthException(AuthException.USERNAME_DOES_NOT_EXIST);
+
+            if (user.Status == 0)
+                throw new AuthException(AuthException.INACTIVE_ACCOUNT);
 
             if (!CheckPassword(login.Password, user.Password))
                 throw new AuthException(AuthException.WRONG_PASSWORD);

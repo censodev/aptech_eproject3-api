@@ -37,47 +37,22 @@ namespace Data.Repositories
 
         public bool Delete(long id)
         {
-            using (var transaction = context.Database.BeginTransaction())
-            {
-                try
-                {
-                    var entity = Find(id);
-                    entity.Status = 0;
-                    return Update(entity);
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex.Message);
-                    transaction.Rollback();
-                    return false;
-                }
-                
-            }
+            var entity = Find(id);
+            entity.Status = 0;
+            context.Set<E>().Update(entity);
+            return Commit();
         }
 
         public bool DeleteAll(IEnumerable<long> ids)
         {
-            using (var transaction = context.Database.BeginTransaction())
+
+            foreach (var id in ids)
             {
-                try
-                {
-                    foreach (var id in ids)
-                    {
-                        var entity = Find(id);
-                        entity.Status = 0;
-                        context.Set<E>().Update(entity);
-                    }
-                    transaction.Commit();
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex.Message);
-                    transaction.Rollback();
-                    return false;
-                }
-                
+                var entity = Find(id);
+                entity.Status = 0;
+                context.Set<E>().Update(entity);
             }
+            return Commit();
         }
 
         public E Find(long id)
