@@ -7,8 +7,7 @@ namespace Data.Models
 {
     public class SurveyAnswer : Entity
     {
-        public SurveyResult SurveyResult { get; set; }
         public int Number { get; set; }
-        public string Answer { get; set; }
+        public int Answer { get; set; }
     }
 }

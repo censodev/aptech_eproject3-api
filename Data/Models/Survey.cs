@@ -12,5 +12,6 @@ namespace Data.Models
         public User User { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public IEnumerable<SurveyQuestion> Questions { get; set; }
     }
 }

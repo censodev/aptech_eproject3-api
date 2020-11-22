@@ -10,7 +10,7 @@ namespace Data.Models
         public Survey Survey { get; set; }
         public int Number { get; set; }
         public string Question { get; set; }
-        public string Answer { get; set; }
-        public string Options { get; set; }
+        public int Answer { get; set; }
+        public IEnumerable<QuestionOption> Options { get; set; }
     }
 }

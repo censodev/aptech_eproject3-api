@@ -11,5 +11,6 @@ namespace Data.Models
         public Survey Survey { get; set; }
         public double Mark { get; set; }
         public DateTime CreatedAt { get; set; }
+        public IEnumerable<SurveyAnswer> Answers { get; set; }
     }
 }

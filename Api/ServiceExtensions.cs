@@ -13,12 +13,14 @@ namespace Api
         public static void UseServices(this IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ISurveyService, SurveyService>();
         }
 
         public static void UseRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFaqRepository, FaqRepository>();
+            services.AddScoped<ISurveyRepository, SurveyRepository>();
         }
     }
 }

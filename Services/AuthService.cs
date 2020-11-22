@@ -89,6 +89,7 @@ namespace Services
             return new AuthViewModel()
             {
                 Token = GenerateJWTToken(user),
+                UserId = user.Id,
                 Name = user.Name,
                 Username = user.Username,
                 Email = user.Email,
