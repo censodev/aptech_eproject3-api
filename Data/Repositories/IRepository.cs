@@ -8,6 +8,7 @@ namespace Data.Repositories
 {
     public interface IRepository<E> where E : Entity
     {
+        DataContext Context { get; set; }
         IEnumerable<E> FindAll();
         E Find(long id);
         bool Add(E entity);

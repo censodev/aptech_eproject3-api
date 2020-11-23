@@ -12,11 +12,13 @@ namespace Data.Repositories
     {
         protected readonly DataContext context;
         protected readonly ILogger logger;
+        public DataContext Context { get; set; }
 
         public Repository(DataContext context, ILogger logger)
         {
             this.context = context;
             this.logger = logger;
+            Context = context;
         }
 
         public bool Add(E entity)

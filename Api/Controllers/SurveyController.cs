@@ -24,13 +24,51 @@ namespace Api.Controllers
 
         [HttpPost]
         [Authorize(Policy = Policies.Admin)]
-        public IActionResult Post(SurveyRequest request)
+        public IActionResult Post([FromBody] SurveyRequest request)
         {
             if (surveyService.Create(request))
             {
                 return Ok(new RestResponse(true, "Create survey successfully"));
             }
             return Ok(new RestResponse(false, "Create survey failed"));
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        [Authorize(Policy = Policies.Admin)]
+        public IActionResult Put(long id, [FromBody] SurveyRequest request)
+        {
+            request.Id = id;
+            if (surveyService.Update(request))
+            {
+                return Ok(new RestResponse(true, "Update survey successfully"));
+            }
+            return Ok(new RestResponse(false, "Update survey failed"));
+        }
+
+        [HttpGet]
+        public IActionResult Get([FromQuery] string orderBy,
+                                 [FromQuery] string order,
+                                 [FromQuery] string keyword,
+                                 [FromQuery] DateTime? startDate = null,
+                                 [FromQuery] DateTime? endDate = null)
+        {
+            var param = new SurveyParam()
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                Keyword = keyword,
+                OrderBy = orderBy,
+                Order = order,
+            };
+            return Ok(new RestResponse(true, null, surveyService.List(param)));
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Get(long id)
+        {
+            return Ok(new RestResponse(true, null, surveyService.One(id)));
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Common.Requests
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public IEnumerable<SurveyQuestionRequest> Questions { get; set; }
+        public int Status { get; set; }
     }
 
     public class SurveyQuestionRequest
@@ -22,6 +23,7 @@ namespace Common.Requests
         public string Question { get; set; }
         public int Answer { get; set; }
         public IEnumerable<SurveyQuestionOptionRequest> Options { get; set; }
+        public int Status { get; set; }
     }
 
     public class SurveyQuestionOptionRequest
@@ -29,5 +31,6 @@ namespace Common.Requests
         public long Id { get; set; }
         public int Value { get; set; }
         public string Title { get; set; }
+        public int Status { get; set; }
     }
 }
