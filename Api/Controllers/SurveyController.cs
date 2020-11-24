@@ -50,6 +50,8 @@ namespace Api.Controllers
         public IActionResult Get([FromQuery] string orderBy,
                                  [FromQuery] string order,
                                  [FromQuery] string keyword,
+                                 [FromQuery] int? status,
+                                 [FromQuery] long? doneBy,
                                  [FromQuery] DateTime? startDate = null,
                                  [FromQuery] DateTime? endDate = null)
         {
@@ -60,6 +62,8 @@ namespace Api.Controllers
                 Keyword = keyword,
                 OrderBy = orderBy,
                 Order = order,
+                Status = status,
+                DoneBy = doneBy,
             };
             return Ok(new RestResponse(true, null, surveyService.List(param)));
         }

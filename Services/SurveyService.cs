@@ -146,6 +146,18 @@ namespace Services
                               || s.User.Email.Contains(param.Keyword));
             }
 
+            if (param.Status != null)
+            {
+                query = query.Where(s => s.Status.Equals(param.Status));
+            }
+
+            if (param.DoneBy != null)
+            {
+                var results = surveyResultRepository.FindByUserDone((long) param.DoneBy)
+                    .Select(r => r.Survey.Id).ToArray();
+                query = query.Where(s => results.Contains(s.Id));
+            }    
+
             return query.ToList();
         }
 

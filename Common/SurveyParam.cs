@@ -11,5 +11,7 @@ namespace Common
         public string OrderBy { get; set; }
         public string Order { get; set; }
         public string Keyword { get; set; }
+        public int? Status { get; set; } = null;
+        public long? DoneBy { get; set; } = null;
     }
 }

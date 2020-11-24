@@ -14,6 +14,7 @@ namespace Api
         {
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ISurveyService, SurveyService>();
+            services.AddScoped<IStatisticService, StatisticService>();
         }
 
         public static void UseRepositories(this IServiceCollection services)
