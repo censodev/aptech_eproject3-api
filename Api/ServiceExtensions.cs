@@ -21,6 +21,7 @@ namespace Api
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFaqRepository, FaqRepository>();
             services.AddScoped<ISurveyRepository, SurveyRepository>();
+            services.AddScoped<ISurveyResultRepository, SurveyResultRepository>();
         }
     }
 }

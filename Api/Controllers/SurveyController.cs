@@ -70,5 +70,18 @@ namespace Api.Controllers
         {
             return Ok(new RestResponse(true, null, surveyService.One(id)));
         }
+
+        [HttpPost]
+        [Route("do")]
+        [Authorize]
+        public IActionResult DoSurvey([FromBody] DoSurveyRequest request)
+        {
+            var rs = surveyService.DoSurvey(request);
+            if (rs != null)
+            {
+                return Ok(new RestResponse(true, "Do survey successfully", rs));
+            }
+            return Ok(new RestResponse(false, "Do survey failed"));
+        }
     }
 }

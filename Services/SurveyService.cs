@@ -13,13 +13,16 @@ namespace Services
     public class SurveyService : ISurveyService
     {
         private readonly ISurveyRepository surveyRepository;
+        private readonly ISurveyResultRepository surveyResultRepository;
         private readonly IUserRepository userRepository;
 
         public SurveyService(ISurveyRepository surveyRepository,
-                             IUserRepository userRepository)
+                             IUserRepository userRepository,
+                             ISurveyResultRepository surveyResultRepository)
         {
             this.surveyRepository = surveyRepository;
             this.userRepository = userRepository;
+            this.surveyResultRepository = surveyResultRepository;
         }
 
         public bool Create(SurveyRequest request)
@@ -46,6 +49,53 @@ namespace Services
                     Status = 1,
                 }).ToList(),
             });
+        }
+
+        public SurveyResult DoSurvey(DoSurveyRequest request)
+        {
+            var isExist = surveyResultRepository.Context.SurveyResults
+                .Where(r => r.Survey.Id.Equals(request.SurveyId))
+                .Where(r => r.User.Id.Equals(request.UserId))
+                .Count() > 0;
+
+            if (isExist)
+            {
+                return null;
+            }
+
+            var result = new SurveyResult()
+            {
+                Status = 1,
+                CreatedAt = DateTime.Now,
+                Survey = surveyRepository.Find(request.SurveyId),
+                User = userRepository.Find(request.UserId),
+                Answers = request.Answers.Select(asw => new SurveyAnswer()
+                {
+                    Status = 1,
+                    Number = asw.Number,
+                    Answer = asw.Answer,
+                }).ToList(),
+                Mark = Math.Round((float) surveyRepository.Context.Surveys
+                    .Where(s => s.Id.Equals(request.SurveyId))
+                    .Include(s => s.Questions)
+                    .FirstOrDefault()
+                    .Questions
+                        .Aggregate(0, (acc, cur) =>
+                        {
+                            var rs = request.Answers
+                                .Where(asw => asw.Number.Equals(cur.Number))
+                                .Where(asw => asw.Answer.Equals(cur.Answer))
+                                .Count();
+                            return acc + rs;
+                        }) / request.Answers.Count() * 100, 2),
+            };
+
+            if (!surveyResultRepository.Add(result))
+            {
+                return null;
+            }
+
+            return result;
         }
 
         public IEnumerable<Survey> List(SurveyParam param)
@@ -123,7 +173,6 @@ namespace Services
                 Questions = request.Questions.Select(q => new SurveyQuestion()
                 {
                     Id = q.Id,
-                    SurveyId = request.Id,
                     Number = q.Number,
                     Question = q.Question,
                     Answer = q.Answer,

@@ -13,5 +13,6 @@ namespace Services
         IEnumerable<Survey> List(SurveyParam param);
         Survey One(long id);
         bool Update(SurveyRequest request);
+        SurveyResult DoSurvey(DoSurveyRequest request);
     }
 }
