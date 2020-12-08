@@ -82,13 +82,13 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors("AllowAll");
-
             app.UseCustomMiddlewares();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("AllowAll");
 
             app.UseAuthentication();
 
