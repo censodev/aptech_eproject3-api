@@ -12,5 +12,10 @@ namespace Data.Models
         public string Password { get; set; }
         public string  Email { get; set; }
         public string UserRole { get; set; }
+        public DateTime DateOfJoining { get; set; }
+        public string Class { get; set; }
+        public string RollNumber { get; set; }
+        public string Section { get; set; }
+        public string Specification { get; set; }
     }
 }
