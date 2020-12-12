@@ -62,6 +62,11 @@ namespace Services
                 Password = HashPassword(register.Password),
                 Email = register.Email,
                 UserRole = register.UserRole,
+                DateOfJoining = register.DateOfJoining,
+                Class = register.Class,
+                RollNumber = register.RollNumber,
+                Section = register.Section,
+                Specification = register.Specification,
                 Status = 1,
             };
 
@@ -93,7 +98,12 @@ namespace Services
                 Name = user.Name,
                 Username = user.Username,
                 Email = user.Email,
-                UserRole = user.UserRole
+                UserRole = user.UserRole,
+                DateOfJoining = user.DateOfJoining,
+                Class = user.Class,
+                RollNumber = user.RollNumber,
+                Section = user.Section,
+                Specification = user.Specification,
             };
         }
     }

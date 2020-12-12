@@ -17,11 +17,24 @@ namespace Services
             this.dataContext = dataContext;
         }
 
-        public SummaryStat SummaryStat()
+        public SumStat SumStat()
         {
-            var sql = "";
-            //dataContext.SurveyAnswers.FromSqlRaw<SummaryStat>(sql);
-            return null;
+            return new SumStat()
+            {
+                SurveyCount = dataContext.Surveys.Count(),
+                UserCount = dataContext.Users.Count(),
+                SurveyResultCount = dataContext.SurveyResults.Count(),
+            };
+        }
+
+        public IEnumerable<SurveyUserCountStat> SurveyUserCountStat()
+        {
+            var sql = @"select s.Id, s.Title, s.StartDate, s.EndDate, count(sr.Id) UserCount
+                        from Surveys s
+                        left join SurveyResults sr on s.Id = sr.SurveyId
+                        group by s.Id, s.Title, s.StartDate, s.EndDate";
+            var query = dataContext.SurveyUserCountStats.FromSqlRaw<SurveyUserCountStat>(sql);
+            return query.ToList();
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Services
 {
     public interface IStatisticService
     {
-        SummaryStat SummaryStat();
+        IEnumerable<SurveyUserCountStat> SurveyUserCountStat();
+        SumStat SumStat();
     }
 }

@@ -28,5 +28,8 @@ namespace Data
         public DbSet<SurveyAnswer> SurveyAnswers { get; set; }
         public DbSet<SurveyResult> SurveyResults { get; set; }
         public DbSet<Faq> Faqs { get; set; }
+
+
+        public DbSet<SurveyUserCountStat> SurveyUserCountStats { get; set; }
     }
 }
